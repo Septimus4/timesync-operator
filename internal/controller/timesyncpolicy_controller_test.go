@@ -38,7 +38,7 @@ var _ = Describe("TimeSyncPolicy Controller", func() {
 
 		typeNamespacedName := types.NamespacedName{
 			Name:      resourceName,
-			Namespace: "default", // TODO(user):Modify as needed
+			Namespace: "default",
 		}
 		timesyncpolicy := &syncv1alpha1.TimeSyncPolicy{}
 
@@ -51,19 +51,21 @@ var _ = Describe("TimeSyncPolicy Controller", func() {
 						Name:      resourceName,
 						Namespace: "default",
 					},
-					// TODO(user): Specify other spec details if needed.
 				}
 				Expect(k8sClient.Create(ctx, resource)).To(Succeed())
 			}
 		})
 
 		AfterEach(func() {
-			// TODO(user): Cleanup logic after each test, like removing the resource instance.
+			By("Cleanup the specific resource instance TimeSyncPolicy")
 			resource := &syncv1alpha1.TimeSyncPolicy{}
 			err := k8sClient.Get(ctx, typeNamespacedName, resource)
-			Expect(err).NotTo(HaveOccurred())
-
-			By("Cleanup the specific resource instance TimeSyncPolicy")
+			if err != nil {
+				if errors.IsNotFound(err) {
+					return
+				}
+				Expect(err).NotTo(HaveOccurred())
+			}
 			Expect(k8sClient.Delete(ctx, resource)).To(Succeed())
 		})
 		It("should successfully reconcile the resource", func() {
@@ -77,8 +79,11 @@ var _ = Describe("TimeSyncPolicy Controller", func() {
 				NamespacedName: typeNamespacedName,
 			})
 			Expect(err).NotTo(HaveOccurred())
-			// TODO(user): Add more specific assertions depending on your controller's reconciliation logic.
-			// Example: If you expect a certain status condition after reconciliation, verify it here.
+
+			By("Verifying the status of the reconciled resource")
+			err = k8sClient.Get(ctx, typeNamespacedName, timesyncpolicy)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(timesyncpolicy.Status.MatchedNamespaces).To(BeNumerically(">=", 0))
 		})
 	})
 })

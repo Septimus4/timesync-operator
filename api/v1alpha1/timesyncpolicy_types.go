@@ -25,21 +25,21 @@ import (
 
 // TimeSyncPolicySpec defines the desired state of TimeSyncPolicy.
 type TimeSyncPolicySpec struct {
-	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
-
-	// Foo is an example field of TimeSyncPolicy. Edit timesyncpolicy_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	NamespaceSelector metav1.LabelSelector `json:"namespaceSelector"`
+	Enable            bool                 `json:"enable"`
+	Image             string               `json:"image"`
 }
 
 // TimeSyncPolicyStatus defines the observed state of TimeSyncPolicy.
 type TimeSyncPolicyStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+	MatchedNamespaces int `json:"matchedNamespaces"`
 }
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:resource:scope=Cluster
 
 // TimeSyncPolicy is the Schema for the timesyncpolicies API.
 type TimeSyncPolicy struct {

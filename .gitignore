@@ -1,26 +1,46 @@
-# If you prefer the allow list template instead of the deny list, see community template:
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-#
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+# Binaries
+bin/
+!bin/controller-gen-v*
+!bin/setup-envtest-release-*
+bin/manager
 
-# Test binary, built with `go test -c`
+# Build outputs
+/build/
+*.exe
+*.out
 *.test
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+# Test artifacts
+.coverage
+*.log
+*.tmp
+*.pid
+*.prof
+*.pb.go
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# Go module artifacts
+go.sum
 
-# Go workspace file
-go.work
-go.work.sum
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
 
-# env file
-.env
-/.idea/
+# Envtest binaries (downloaded by setup-envtest)
+.kubebuilder/
+
+# Generated files (you might want to commit CRDs, so be selective)
+config/crd/bases/*_generated.yaml
+
+# Kubernetes config overrides
+config/manager/kustomization.yaml.backup
+config/webhook/kustomization.yaml.backup
+
+# Test reports
+junit*.xml
+
+# Ginkgo and test cache
+.ginkgo/
+testbin/
