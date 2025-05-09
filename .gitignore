@@ -1,8 +1,5 @@
 # Binaries
 bin/
-!bin/controller-gen-v*
-!bin/setup-envtest-release-*
-bin/manager
 
 # Build outputs
 /build/
@@ -44,3 +41,4 @@ junit*.xml
 # Ginkgo and test cache
 .ginkgo/
 testbin/
+/api/v1alpha1/zz_generated.deepcopy.go
